@@ -173,7 +173,7 @@ $(document).ready(function() {
     });
 
     // Creates APDEX table
-    createTable($("#apdexTable"), {"supportsControllersDiscrimination": true, "overall": {"data": [0.74, 500, 1500, "Total"], "isController": false}, "titles": ["Apdex", "T (Seuil de tolérance)", "F (Seuil de frustration)", "Libellé"], "items": [{"data": [0.74, 500, 1500, "Requête HTTP"], "isController": false}]}, function(index, item){
+    createTable($("#apdexTable"), {"supportsControllersDiscrimination": true, "overall": {"data": [0.701, 500, 1500, "Total"], "isController": false}, "titles": ["Apdex", "T (Seuil de tolérance)", "F (Seuil de frustration)", "Libellé"], "items": [{"data": [0.701, 500, 1500, "Requête HTTP"], "isController": false}]}, function(index, item){
         switch(index){
             case 0:
                 item = item.toFixed(3);
@@ -187,7 +187,7 @@ $(document).ready(function() {
     }, [[0, 0]], 3);
 
     // Create statistics table
-    createTable($("#statisticsTable"), {"supportsControllersDiscrimination": true, "overall": {"data": ["Total", 1000, 0, 0.0, 866.4329999999986, 97, 3673, 171.0, 3467.3999999999996, 3618.95, 3652.99, 106.30381630700542, 115.26925593972574, 22.838710534708195], "isController": false}, "titles": ["Libellé", "#Echantillons", "KO", "% Erreur", "Temps moyen", "Min", "Max", "Médiane", "90% centile", "95% centile", "99% centile", "Débit", "Reçues", "Envoyés"], "items": [{"data": ["Requête HTTP", 1000, 0, 0.0, 866.4329999999986, 97, 3673, 171.0, 3467.3999999999996, 3618.95, 3652.99, 106.30381630700542, 115.26925593972574, 22.838710534708195], "isController": false}]}, function(index, item){
+    createTable($("#statisticsTable"), {"supportsControllersDiscrimination": true, "overall": {"data": ["Total", 1000, 0, 0.0, 1016.2199999999993, 70, 4467, 138.0, 3774.7999999999997, 4064.85, 4285.97, 102.1659174499387, 110.8856388243257, 21.949708827135268], "isController": false}, "titles": ["Libellé", "#Echantillons", "KO", "% Erreur", "Temps moyen", "Min", "Max", "Médiane", "90% centile", "95% centile", "99% centile", "Débit", "Reçues", "Envoyés"], "items": [{"data": ["Requête HTTP", 1000, 0, 0.0, 1016.2199999999993, 70, 4467, 138.0, 3774.7999999999997, 4064.85, 4285.97, 102.1659174499387, 110.8856388243257, 21.949708827135268], "isController": false}]}, function(index, item){
         switch(index){
             // Errors pct
             case 3:

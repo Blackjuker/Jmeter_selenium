@@ -173,7 +173,7 @@ $(document).ready(function() {
     });
 
     // Creates APDEX table
-    createTable($("#apdexTable"), {"supportsControllersDiscrimination": true, "overall": {"data": [0.915, 500, 1500, "Total"], "isController": false}, "titles": ["Apdex", "T (Seuil de tolérance)", "F (Seuil de frustration)", "Libellé"], "items": [{"data": [0.915, 500, 1500, "GetAllUsers"], "isController": false}]}, function(index, item){
+    createTable($("#apdexTable"), {"supportsControllersDiscrimination": true, "overall": {"data": [0.894, 500, 1500, "Total"], "isController": false}, "titles": ["Apdex", "T (Seuil de tolérance)", "F (Seuil de frustration)", "Libellé"], "items": [{"data": [0.894, 500, 1500, "GetAllUsers"], "isController": false}]}, function(index, item){
         switch(index){
             case 0:
                 item = item.toFixed(3);
@@ -187,7 +187,7 @@ $(document).ready(function() {
     }, [[0, 0]], 3);
 
     // Create statistics table
-    createTable($("#statisticsTable"), {"supportsControllersDiscrimination": true, "overall": {"data": ["Total", 2000, 0, 0.0, 365.0830000000004, 14, 4796, 72.0, 388.30000000000155, 3075.7999999999993, 4414.63, 171.89514396218306, 364.5364706435324, 20.14396218306833], "isController": false}, "titles": ["Libellé", "#Echantillons", "KO", "% Erreur", "Temps moyen", "Min", "Max", "Médiane", "90% centile", "95% centile", "99% centile", "Débit", "Reçues", "Envoyés"], "items": [{"data": ["GetAllUsers", 2000, 0, 0.0, 365.0830000000004, 14, 4796, 72.0, 388.30000000000155, 3075.7999999999993, 4414.63, 171.89514396218306, 364.5364706435324, 20.14396218306833], "isController": false}]}, function(index, item){
+    createTable($("#statisticsTable"), {"supportsControllersDiscrimination": true, "overall": {"data": ["Total", 2000, 0, 0.0, 317.6149999999997, 11, 4168, 44.5, 1098.000000000001, 2552.6499999999987, 3651.8500000000004, 184.99676255665526, 391.2771858523726, 21.67930811210804], "isController": false}, "titles": ["Libellé", "#Echantillons", "KO", "% Erreur", "Temps moyen", "Min", "Max", "Médiane", "90% centile", "95% centile", "99% centile", "Débit", "Reçues", "Envoyés"], "items": [{"data": ["GetAllUsers", 2000, 0, 0.0, 317.6149999999997, 11, 4168, 44.5, 1098.000000000001, 2552.6499999999987, 3651.8500000000004, 184.99676255665526, 391.2771858523726, 21.67930811210804], "isController": false}]}, function(index, item){
         switch(index){
             // Errors pct
             case 3:
