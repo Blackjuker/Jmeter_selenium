@@ -7,7 +7,7 @@ pipeline {
     }
 
     environment {
-        JMETER_TEST_FILE = "tests/SQL.jmx"
+        JMETER_TEST_FILE = "tests/jmeter/SQL.jmx"
         REPORT_DIR = "jmeter-report"
     }
 
