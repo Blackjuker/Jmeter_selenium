@@ -1,11 +1,9 @@
 pipeline {
-    agent {
-        label "node" // à adapter selon ton agent
-    }
+    agent any
 
     environment {
         JMETER_HOME = "/chemin/vers/apache-jmeter/bin" // adapte selon ton serveur
-        JMETER_TEST_FILE = "tests/sql.jmx" // ton fichier JMX
+        JMETER_TEST_FILE = "tests/.jmx" // ton fichier JMX
         REPORT_DIR = "jmeter-report"
     }
 
