@@ -1,54 +1,40 @@
 pipeline {
     agent {
         docker {
-            image 'alpine/jmeter'
-            args '-v $PWD:/tests' // pour monter ton répertoire si besoin
+            image 'maven:3.8.6-openjdk-11'
+            args '-u root:root'
         }
     }
 
     environment {
-        JMETER_TEST_FILE = "src/test/jmeter/SQL.jmx"
-        REPORT_DIR = "jmeter-report"
+        REPORT_DIR = "src/target/jmeter/reports" // Généré automatiquement par le plugin Maven JMeter
     }
 
     stages {
-        stage("Préparation") {
+        stage('Build Project (sans tests unitaires)') {
             steps {
-                echo "📦 Nettoyage du projet"
-                sh "mkdir -p ${REPORT_DIR}"
+                echo '🛠️ Compilation du projet (tests unitaires ignorés)'
+                sh 'mvn clean install'
             }
         }
 
-       stage("Run JMeter Tests") {
-    steps {
-        echo " Vérification du fichier JMX et exécution des tests JMeter..."
-
-        // Affiche le contenu du dossier pour debug
-        sh "echo ' Contenu de test/jmeter :' && ls -l src/test"
-
-        // Vérifie si le fichier existe, sinon erreur explicite
-        // sh """
-        //     if [ ! -f ${JMETER_TEST_FILE} ]; then
-        //         echo ' Le fichier ${JMETER_TEST_FILE} est introuvable !'
-        //         exit 1
-        //     fi
-        // """
-        //sh "mvn clean verify"
-        // Test de la version JMeter (sanity check)
-        sh "echo ' JMeter version :' && jmeter -v"
-
-        // Lancement du test JMeter
-        sh """
-            jmeter -n -t ${JMETER_TEST_FILE}
-        """
-    }
-}
-
-
-        stage("Archive Report") {
+        stage('Configurer JMeter via Maven') {
             steps {
-                echo "🗂 Archivage du rapport JMeter..."
-                archiveArtifacts artifacts: "${REPORT_DIR}/**", fingerprint: true
+                echo '⚙️ Configuration du plugin JMeter'
+                sh 'mvn jmeter:configure'
+            }
+        }
+
+        stage('Exécuter les tests JMeter') {
+            steps {
+                echo '🚀 Exécution des tests JMeter via Maven'
+                sh 'mvn jmeter:jmeter'
+            }
+        }
+
+        stage("Archiver le rapport JMeter") {
+            steps {
+                echo "🗂 Archivage du rapport JMeter HTML"
                 publishHTML(target: [
                     allowMissing: false,
                     alwaysLinkToLastBuild: true,
