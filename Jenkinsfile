@@ -7,7 +7,7 @@ pipeline {
     }
 
     environment {
-        REPORT_DIR = "src/target/jmeter/reports", // Généré automatiquement par le plugin Maven JMeter
+        REPORT_DIR = "src/target/jmeter/reports" // Généré automatiquement par le plugin Maven JMeter
          JMETER_FILE = "src/test/jmeter/SQL.jmx"
     }
 
