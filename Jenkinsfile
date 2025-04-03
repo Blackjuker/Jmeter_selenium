@@ -19,15 +19,31 @@ pipeline {
             }
         }
 
-        stage("Run JMeter Tests") {
-            steps {
-                echo "🚀 Exécution des tests JMeter..."
-                sh """
-                    jmeter -n \\
-                           -t ${JMETER_TEST_FILE} 
-                """
-            }
-        }
+       stage("Run JMeter Tests") {
+    steps {
+        echo "🚀 Vérification du fichier JMX et exécution des tests JMeter..."
+
+        // Affiche le contenu du dossier pour debug
+        sh "echo '📂 Contenu de tests/jmeter :' && ls -l tests/jmeter"
+
+        // Vérifie si le fichier existe, sinon erreur explicite
+        sh """
+            if [ ! -f ${JMETER_TEST_FILE} ]; then
+                echo '❌ Le fichier ${JMETER_TEST_FILE} est introuvable !'
+                exit 1
+            fi
+        """
+
+        // Test de la version JMeter (sanity check)
+        sh "echo '✅ JMeter version :' && jmeter -v"
+
+        // Lancement du test JMeter
+        sh """
+            jmeter -n -t ${JMETER_TEST_FILE}
+        """
+    }
+}
+
 
         stage("Archive Report") {
             steps {
