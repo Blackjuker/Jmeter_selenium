@@ -1,13 +1,8 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3.8.8-openjdk-17' // Choisis une version selon ton projet
-            args '-v /root/.m2:/root/.m2' // Cache Maven (optionnel)
-        }
-    }
+    agent any
 
-    environment {
-        REPORT_DIR = "jmeter-report"
+    tools{
+        maven "M3"
     }
 
     stages {
