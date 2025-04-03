@@ -7,31 +7,42 @@ pipeline {
     }
 
     environment {
-        REPORT_DIR = "src/target/jmeter/reports" // Généré automatiquement par le plugin Maven JMeter
-         JMETER_FILE = "src/test/jmeter/SQL.jmx"
+        JMETER_FILE = "src/test/jmeter/SQL.jmx"
+        REPORT_DIR = "target/jmeter/reports"
     }
 
     stages {
-        stage('Build Project (sans tests unitaires)') {
+        stage('Build Project') {
             steps {
-                echo '🛠️ Compilation du projet (tests unitaires ignorés)'
+                echo '🧱 Build du projet Java (sans tests unitaires)'
                 sh 'mvn clean install -DskipTests'
             }
         }
 
-
-        stage('Configure and Exécuter les tests JMeter') {
+        stage('Configurer JMeter') {
             steps {
-                echo '⚙️ Configuration du plugin JMeter'
+                echo '⚙️ Configuration des tests JMeter'
                 sh 'mvn jmeter:configure'
-                echo '🚀 Exécution des tests JMeter via Maven'
-                 sh "mvn jmeter:jmeter -Djmeter.testfiles=${JMETER_FILE}"
             }
         }
 
-        stage("Archiver le rapport JMeter") {
+        stage('Exécuter le test SQL.jmx') {
             steps {
-                echo "🗂 Archivage du rapport JMeter HTML"
+                echo "🚀 Exécution du fichier JMeter : ${JMETER_FILE}"
+                sh "mvn jmeter:jmeter -Djmeter.testfiles=${JMETER_FILE}"
+            }
+        }
+
+        stage('Vérifier les résultats') {
+            steps {
+                echo '🔍 Analyse des résultats JMeter'
+                sh "mvn jmeter:results"
+            }
+        }
+
+        stage('Publier le rapport HTML') {
+            steps {
+                echo "🗂 Publication du rapport JMeter"
                 publishHTML(target: [
                     allowMissing: false,
                     alwaysLinkToLastBuild: true,
@@ -45,14 +56,11 @@ pipeline {
     }
 
     post {
-        always {
-            echo "✅ Pipeline terminée"
-        }
         success {
-            echo "🎉 Tests JMeter exécutés avec succès"
+            echo "🎉 Tous les tests JMeter ont réussi !"
         }
         failure {
-            echo "❌ Échec lors de l'exécution des tests JMeter"
+            echo "❌ Des erreurs ont été détectées dans les tests JMeter."
         }
     }
 }
