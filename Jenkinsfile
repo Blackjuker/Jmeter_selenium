@@ -41,9 +41,15 @@ pipeline {
 
         stage('Execute  test Jmeter'){
             steps{
-                sh 'mvn jmeter:jmeter'
+                sh '''
+            mvn jmeter:jmeter \
+            -Djmeter.save.saveservice.output_format=xml \
+            -Djmeter.results.file.format=xml \
+            -Djmeter.result.jtl=target/jmeter/results/results.jtl
+        '''
             }
         }
+        
       
         // stage('Configurer JMeter') {
         //     steps {
@@ -85,6 +91,16 @@ pipeline {
         //         ])
         //     }
         // }
+        stage('Publier les résultats JMeter (Plugin Performance)') {
+    steps {
+        echo "📈 Publication des résultats de performance"
+        // archiveArtifacts permet de garder le .jtl dans Jenkins
+        archiveArtifacts artifacts: 'target/jmeter/results/results.jtl', allowEmptyArchive: false
+        // Le plugin Performance va utiliser ce chemin
+        perfReport sourceDataFiles: 'target/jmeter/results/results.jtl'
+    }
+}
+
     }
 
     post {
