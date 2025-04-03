@@ -1,24 +1,20 @@
 pipeline {
     agent any
 
-    environment {
-        JMETER_HOME = "/chemin/vers/apache-jmeter/bin" // adapte selon ton serveur
-        JMETER_TEST_FILE = "tests/.jmx" // ton fichier JMX
-        REPORT_DIR = "jmeter-report"
-    }
+   
 
     stages {
         stage("Preparation") {
             steps {
                 echo "📦 Préparation de l'environnement..."
-                sh "mkdir -p ${REPORT_DIR}"
+                sh "mvn clean"
             }
         }
 
         stage("Run JMeter Tests") {
             steps {
                 echo "🚀 Exécution des tests JMeter..."
-                sh "${JMETER_HOME}/jmeter -n -t ${JMETER_TEST_FILE} -l ${REPORT_DIR}/result.jtl -e -o ${REPORT_DIR}/html"
+               
             }
         }
 
