@@ -30,14 +30,14 @@ pipeline {
                 sh 'mvn -version'
             }
         }
-        // stage('Build Project') {
-        //     steps {
-        //         echo '🧱 Build du projet Java (sans tests unitaires)'
+        stage('Build Project') {
+            steps {
+                echo '🧱 Build du projet Java (sans tests unitaires)'
                 
-        //         sh 'mvn clean compile'
+                sh 'mvn clean compile'
                 
-        //     }
-        // }
+            }
+        }
       
         // stage('Configurer JMeter') {
         //     steps {
