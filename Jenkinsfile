@@ -24,7 +24,7 @@ pipeline {
         echo "🚀 Vérification du fichier JMX et exécution des tests JMeter..."
 
         // Affiche le contenu du dossier pour debug
-        sh "echo '📂 Contenu de tests/jmeter :' && ls -l tests/jmeter"
+        sh "echo '📂 Contenu de tests/jmeter :' && ls -l "
 
         // Vérifie si le fichier existe, sinon erreur explicite
         sh """
