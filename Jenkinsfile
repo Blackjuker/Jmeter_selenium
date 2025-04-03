@@ -6,6 +6,10 @@ pipeline {
         }
     }
 
+    options {
+            // Nettoyage automatique avant le checkout
+            skipDefaultCheckout(true)
+        }
     environment {
         JMETER_FILE = "src/test/jmeter/SQL.jmx"
         REPORT_DIR = "target/jmeter/reports"
