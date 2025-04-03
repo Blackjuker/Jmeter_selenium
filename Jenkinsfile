@@ -16,6 +16,13 @@ pipeline {
     }
 
     stages {
+        stage('Checkout & Cleanup') {
+            steps {
+                echo '🧹 Nettoyage du workspace avant checkout'
+                cleanWs()
+                checkout scm
+            }
+        }
         stage('Build Project') {
             steps {
                 echo '🧱 Build du projet Java (sans tests unitaires)'
