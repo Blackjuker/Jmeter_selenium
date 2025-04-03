@@ -33,7 +33,7 @@ pipeline {
         //         exit 1
         //     fi
         // """
-
+        sh "mvn clean verify"
         // Test de la version JMeter (sanity check)
         sh "echo '✅ JMeter version :' && jmeter -v"
 
