@@ -8,6 +8,7 @@ pipeline {
 
     environment {
         REPORT_DIR = "src/target/jmeter/reports" // Généré automatiquement par le plugin Maven JMeter
+         JMETER_FILE = "src/test/jmeter/SQL.jmx"
     }
 
     stages {
@@ -28,7 +29,7 @@ pipeline {
         stage('Exécuter les tests JMeter') {
             steps {
                 echo '🚀 Exécution des tests JMeter via Maven'
-                sh 'mvn jmeter:jmeter'
+                sh "mvn jmeter:jmeter -Djmeter.testfiles=${JMETER_FILE}"'
             }
         }
 
