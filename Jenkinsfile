@@ -24,9 +24,7 @@ pipeline {
                 echo "🚀 Exécution des tests JMeter..."
                 sh """
                     jmeter -n \\
-                           -t ${JMETER_TEST_FILE} \\
-                           -l ${REPORT_DIR}/result.jtl \\
-                           -e -o ${REPORT_DIR}/html
+                           -t ${JMETER_TEST_FILE} 
                 """
             }
         }
