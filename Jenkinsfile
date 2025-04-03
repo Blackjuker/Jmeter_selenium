@@ -38,6 +38,12 @@ pipeline {
                 
             }
         }
+
+        stage('Execute  test Jmeter'){
+            steps{
+                sh 'mvn jmeter:jmeter'
+            }
+        }
       
         // stage('Configurer JMeter') {
         //     steps {
