@@ -5,8 +5,6 @@
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="Variables pré-définies">
         <collectionProp name="Arguments.arguments"/>
       </elementProp>
-      <boolProp name="TestPlan.functional_mode">false</boolProp>
-      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
     </TestPlan>
     <hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="ControlerSQL">
@@ -41,7 +39,34 @@
         <hashTree/>
         <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="Requête JDBC">
           <stringProp name="dataSource">myDb</stringProp>
-          <stringProp name="query">select * from departments</stringProp>
+          <stringProp name="query">SELECT 
+    e.emp_no,
+    e.first_name,
+    e.last_name,
+    e.gender,
+    e.hire_date,
+    d.dept_name,
+    dm.emp_no AS manager_no,
+    m.first_name AS manager_first_name,
+    m.last_name AS manager_last_name,
+    de.from_date AS emp_from_date,
+    de.to_date AS emp_to_date,
+    dm.from_date AS manager_from_date,
+    dm.to_date AS manager_to_date
+FROM 
+    employees e
+JOIN 
+    dept_emp de ON e.emp_no = de.emp_no
+JOIN 
+    departments d ON de.dept_no = d.dept_no
+LEFT JOIN 
+    dept_manager dm ON d.dept_no = dm.dept_no
+LEFT JOIN 
+    employees m ON dm.emp_no = m.emp_no
+WHERE 
+    CURRENT_DATE BETWEEN de.from_date AND de.to_date
+    AND CURRENT_DATE BETWEEN dm.from_date AND dm.to_date;
+</stringProp>
           <stringProp name="queryArguments"></stringProp>
           <stringProp name="queryArgumentsTypes"></stringProp>
           <stringProp name="queryTimeout"></stringProp>
