@@ -1,22 +1,33 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'alpine/jmeter'
+            args '-v $PWD:/tests' // pour monter ton répertoire si besoin
+        }
+    }
 
-    tools{
-        maven "M3"
+    environment {
+        JMETER_TEST_FILE = "tests/mon_test.jmx"
+        REPORT_DIR = "jmeter-report"
     }
 
     stages {
-        stage("Preparation") {
+        stage("Préparation") {
             steps {
-                echo "📦 Préparation de l'environnement..."
-                sh "mvn clean"
+                echo "📦 Nettoyage du projet"
+                sh "mkdir -p ${REPORT_DIR}"
             }
         }
 
         stage("Run JMeter Tests") {
             steps {
                 echo "🚀 Exécution des tests JMeter..."
-                // Exemple : sh "mvn verify" ou exécution de ton script JMeter ici
+                sh """
+                    jmeter -n \\
+                           -t ${JMETER_TEST_FILE} \\
+                           -l ${REPORT_DIR}/result.jtl \\
+                           -e -o ${REPORT_DIR}/html
+                """
             }
         }
 
@@ -38,7 +49,7 @@ pipeline {
 
     post {
         always {
-            echo "✅ Pipeline terminée (post always)"
+            echo "✅ Pipeline terminée"
         }
         success {
             echo "🎉 Tests JMeter exécutés avec succès"
