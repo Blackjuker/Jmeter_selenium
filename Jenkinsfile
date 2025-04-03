@@ -1,7 +1,14 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'maven:3.8.8-openjdk-17' // Choisis une version selon ton projet
+            args '-v /root/.m2:/root/.m2' // Cache Maven (optionnel)
+        }
+    }
 
-   
+    environment {
+        REPORT_DIR = "jmeter-report"
+    }
 
     stages {
         stage("Preparation") {
@@ -14,7 +21,7 @@ pipeline {
         stage("Run JMeter Tests") {
             steps {
                 echo "🚀 Exécution des tests JMeter..."
-               
+                // Exemple : sh "mvn verify" ou exécution de ton script JMeter ici
             }
         }
 
