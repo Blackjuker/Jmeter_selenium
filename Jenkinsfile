@@ -7,10 +7,11 @@ pipeline {
     }
 
     options {
-            // Nettoyage automatique avant le checkout
-            skipDefaultCheckout(true)
-        }
+        skipDefaultCheckout(true)
+    }
+
     environment {
+        PROJECT_DIR = "jmeter-selenium"
         JMETER_FILE = "src/test/jmeter/SQL.jmx"
         REPORT_DIR = "target/jmeter/reports"
     }
@@ -23,31 +24,40 @@ pipeline {
                 checkout scm
             }
         }
+
         stage('Build Project') {
             steps {
                 echo '🧱 Build du projet Java (sans tests unitaires)'
-                sh 'mvn clean install -DskipTests'
+                dir("${PROJECT_DIR}") {
+                    sh 'mvn clean install -DskipTests'
+                }
             }
         }
 
         stage('Configurer JMeter') {
             steps {
                 echo '⚙️ Configuration des tests JMeter'
-                sh 'mvn jmeter:configure'
+                dir("${PROJECT_DIR}") {
+                    sh 'mvn jmeter:configure'
+                }
             }
         }
 
         stage('Exécuter le test SQL.jmx') {
             steps {
                 echo "🚀 Exécution du fichier JMeter : ${JMETER_FILE}"
-                sh "mvn jmeter:jmeter -Djmeter.testfiles=${JMETER_FILE}"
+                dir("${PROJECT_DIR}") {
+                    sh "mvn jmeter:jmeter -Djmeter.testfiles=${JMETER_FILE}"
+                }
             }
         }
 
         stage('Vérifier les résultats') {
             steps {
                 echo '🔍 Analyse des résultats JMeter'
-                sh "mvn jmeter:results"
+                dir("${PROJECT_DIR}") {
+                    sh "mvn jmeter:results"
+                }
             }
         }
 
@@ -58,7 +68,7 @@ pipeline {
                     allowMissing: false,
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
-                    reportDir: "${REPORT_DIR}/html",
+                    reportDir: "${PROJECT_DIR}/${REPORT_DIR}/html",
                     reportFiles: 'index.html',
                     reportName: "JMeter Report"
                 ])
