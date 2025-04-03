@@ -7,7 +7,7 @@ pipeline {
     }
 
     environment {
-        REPORT_DIR = "src/target/jmeter/reports" // Généré automatiquement par le plugin Maven JMeter
+        REPORT_DIR = "src/target/jmeter/reports", // Généré automatiquement par le plugin Maven JMeter
          JMETER_FILE = "src/test/jmeter/SQL.jmx"
     }
 
@@ -19,17 +19,13 @@ pipeline {
             }
         }
 
-        stage('Configurer JMeter via Maven') {
+
+        stage('Configure and Exécuter les tests JMeter') {
             steps {
                 echo '⚙️ Configuration du plugin JMeter'
                 sh 'mvn jmeter:configure'
-            }
-        }
-
-        stage('Exécuter les tests JMeter') {
-            steps {
                 echo '🚀 Exécution des tests JMeter via Maven'
-                sh "mvn jmeter:jmeter -Djmeter.testfiles=${JMETER_FILE}"'
+                 sh "mvn jmeter:jmeter -Djmeter.testfiles=${JMETER_FILE}"
             }
         }
 
