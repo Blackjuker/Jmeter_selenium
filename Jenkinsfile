@@ -1,7 +1,8 @@
 pipeline {
     agent {
         docker {
-             image 'maven:3.8.6-openjdk-11'
+            image 'maven:3.8.6-openjdk-11'
+            args '-u root:root'
         }
     }
 
@@ -27,9 +28,6 @@ pipeline {
 
         stage('Exécuter le test SQL.jmx') {
             steps {
-                echo "🙋🏽 liste des fichiers"
-                sh 'echo "📂 Contenu de src/test/jmeter :" && ls -l src/test/jmeter'
-
                 echo "🚀 Exécution du fichier JMeter : ${JMETER_FILE}"
                 sh "mvn jmeter:jmeter -Djmeter.testfiles=${JMETER_FILE}"
             }
