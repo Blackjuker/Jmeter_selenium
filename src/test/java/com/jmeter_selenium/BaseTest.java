@@ -22,7 +22,7 @@ public class BaseTest {
             
             String gridUrl = System.getProperty("selenium.grid.url", System.getenv("SELENIUM_GRID_URL"));
             if (gridUrl == null || gridUrl.isEmpty()) {
-                gridUrl = "http://192.168.1.119:4444"; // En local, utilise localhost
+                gridUrl = "http://localhost:4444"; // En local, utilise localhost
             }
 
             String fullGridUrl = gridUrl + "/wd/hub";  // Ajoute `/wd/hub` obligatoirement
