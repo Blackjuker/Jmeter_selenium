@@ -14,7 +14,7 @@ pipeline {
         stage('Build Project (sans tests unitaires)') {
             steps {
                 echo '🛠️ Compilation du projet (tests unitaires ignorés)'
-                sh 'mvn clean install'
+                sh 'mvn clean install -DskipTests'
             }
         }
 
